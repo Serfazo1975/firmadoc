@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<html lang="es"><head><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
@@ -202,17 +202,11 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
   <div class="pw-box">
     <span class="pw-lbl">Ingresá tu contraseña</span>
     <div style="position:relative;">
-      <input id="pwI" type="text"
-             placeholder="Escribí tu contraseña"
-             autocomplete="off" autocorrect="off"
-             autocapitalize="off" spellcheck="false"
-             style="width:100%;background:var(--bg);border:2px solid var(--bor);border-radius:10px;padding:13px 44px 13px 14px;font-size:1rem;font-family:'DM Sans',sans-serif;color:var(--txt);outline:none;text-align:center;-webkit-appearance:none;-webkit-text-security:disc;">
-      <button type="button" onclick="toggleEye()"
-              style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.2rem;padding:6px;color:var(--mu);">👁</button>
+      <input id="pwI" type="text" placeholder="Escribí tu contraseña" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="width:100%;background:var(--bg);border:2px solid var(--bor);border-radius:10px;padding:13px 44px 13px 14px;font-size:1rem;font-family:'DM Sans',sans-serif;color:var(--txt);outline:none;text-align:center;-webkit-appearance:none;-webkit-text-security:disc;">
+      <button type="button" onclick="toggleEye()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.2rem;padding:6px;color:var(--mu);">👁</button>
     </div>
     <div id="pwE" class="pw-err"></div>
-    <button type="button" onclick="doLogin()"
-            style="width:100%;margin-top:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#0d0f14;border:none;border-radius:10px;padding:15px;font-family:'DM Sans',sans-serif;font-size:.96rem;font-weight:700;cursor:pointer;-webkit-appearance:none;">
+    <button type="button" onclick="doLogin()" style="width:100%;margin-top:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#0d0f14;border:none;border-radius:10px;padding:15px;font-family:'DM Sans',sans-serif;font-size:.96rem;font-weight:700;cursor:pointer;-webkit-appearance:none;">
       Ingresar →
     </button>
   </div>
@@ -235,15 +229,15 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
   <header>
     <h1>FirmaDoc</h1>
     <span class="bdg">v3.0</span>
-    <div id="trialBadge">
+    <div id="trialBadge" style="display: none;">
       <div class="tt-row">
         <span class="tt">⚠️ PRUEBA</span>
         <span id="usosR"></span>
       </div>
-      <span id="aliasR">Alias: Electrogamez</span>
+      <span id="aliasR">Admin: Sergio</span>
     </div>
     <div class="hdr-r">
-      <button id="adminBtn" class="hbtn p" onclick="openAdmin()">🔧 Admin</button>
+      <button id="adminBtn" class="hbtn p" onclick="openAdmin()" style="display: flex;">🔧 Admin</button>
       <button class="hbtn" onclick="openInst()">📲 Instalar</button>
     </div>
   </header>
@@ -253,9 +247,9 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
     <div class="card">
       <div class="ct">✍️ Dibujá tu firma</div>
       <div class="cw" id="cWrap">
-        <canvas id="sigCv"></canvas>
+        <canvas id="sigCv" width="992" height="212" style="width: 794px; height: 170px;"></canvas>
         <div class="ch" id="cHint">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
           Dibujá tu firma con el dedo
         </div>
       </div>
@@ -295,7 +289,7 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
     <div class="card">
       <div class="ct">📄 Documento PDF</div>
       <div class="uz" onclick="document.getElementById('pdfFI').click()">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
         <p style="font-size:.82rem;font-weight:500;">Subí tu PDF</p>
         <small style="font-size:.68rem;margin-top:2px;display:block;">Tocá para seleccionar</small>
       </div>
@@ -311,14 +305,12 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
     </div>
     <div class="card">
       <div class="ct">✍️ Elegí una firma</div>
-      <div class="smr" id="sigMini"><div class="es" style="font-size:.7rem;">Guardá una firma primero</div></div>
+      <div class="smr" id="sigMini"><div class="es" style="font-size:.68rem;">Guardá una firma primero</div></div>
       <p style="font-size:.66rem;color:var(--mu);margin-top:6px;line-height:1.5;">Seleccioná y tocá el PDF para colocarla.</p>
     </div>
     <div class="card">
       <div class="ct">🔤 Agregar texto al PDF</div>
-      <input type="text" id="txtInput" placeholder="Nombre, DNI, fecha, etc."
-             autocomplete="off"
-             style="width:100%;background:var(--bg);border:2px solid var(--bor);border-radius:9px;padding:11px 12px;font-size:.9rem;font-family:'DM Sans',sans-serif;color:var(--txt);outline:none;margin-bottom:8px;-webkit-appearance:none;">
+      <input type="text" id="txtInput" placeholder="Nombre, DNI, fecha, etc." autocomplete="off" style="width:100%;background:var(--bg);border:2px solid var(--bor);border-radius:9px;padding:11px 12px;font-size:.9rem;font-family:'DM Sans',sans-serif;color:var(--txt);outline:none;margin-bottom:8px;-webkit-appearance:none;">
       <div class="szr"><label>Tamaño</label><input type="range" id="txtSize" min="10" max="48" value="18" oninput="updTxtSize(this)"><span class="szv" id="txtSizeV" style="color:var(--ac2);">18px</span></div>
       <div class="cr" style="margin-top:8px;">
         <div class="dot active" style="background:#0a0a0a;border-color:var(--ac2);" onclick="setTxtCol(this,'#0a0a0a')"></div>
@@ -353,7 +345,7 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
       <div class="ct">📋 Firmas colocadas <span id="plCnt" style="color:var(--ac);margin-left:3px;font-weight:700;"></span></div>
       <div class="pl" id="plList"><div style="font-size:.7rem;color:var(--mu);">Ninguna colocada aún.</div></div>
     </div>
-    <button class="btn bp blg bfull" id="dlBtn" onclick="dlPDF()" disabled>⬇️ Descargar PDF Firmado</button>
+    <button class="btn bp blg bfull" id="dlBtn" onclick="dlPDF()" disabled="">⬇️ Descargar PDF Firmado</button>
   </div>
 
   <!-- MIS PDFs (solo Pro) -->
@@ -373,7 +365,7 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
   <!-- ══ MODALES ══ -->
   <div id="camM">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:2px;color:var(--ac);">📷 Fotografiar Firma</div>
-    <video id="camV" autoplay playsinline muted></video>
+    <video id="camV" autoplay="" playsinline="" muted=""></video>
     <canvas id="camCv"></canvas>
     <div class="camb">
       <button class="btn bp blg" onclick="capPhoto()">📸 Capturar</button>
@@ -404,7 +396,7 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
     <a href="mailto:Sergiofazzini@gmail.com?subject=FirmaDoc%20Version%20completa" class="btn bp blg" style="text-decoration:none;">✉️ Enviar correo ahora</a>
   </div>
 
-  <div id="adminM">
+  <div id="adminM" class="" style="display: none;">
     <button class="aclose" onclick="closeAdmin()">✕</button>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;color:var(--ac2);margin:10px 0 3px;text-align:center;">🔧 Panel Admin</div>
     <p style="font-size:.7rem;color:var(--mu);text-align:center;margin-bottom:16px;max-width:280px;line-height:1.5;">Un solo HTML en Netlify para todos los clientes</p>
@@ -422,16 +414,14 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
     </div>
 
     <div class="card" style="max-width:360px;width:100%;">
-      <div class="ct">👥 Clientes activos <span id="userCountBadge" style="color:var(--ac);font-weight:700;margin-left:4px;"></span></div>
-      <div id="userList"><div style="font-size:.7rem;color:var(--mu);text-align:center;padding:8px;">Ninguno aún.</div></div>
+      <div class="ct">👥 Clientes activos <span id="userCountBadge" style="color:var(--ac);font-weight:700;margin-left:4px;">(2)</span></div>
+      <div id="userList"><div class="hi"><span class="hn">👤 Electrogamez</span><span class="hp">Electrogamez</span><div style="display:flex;gap:6px;align-items:center;width:100%;margin-top:2px;"><span class="hd" style="flex:1;">Alta: 01/06/2025</span><button onclick="copyUserData(0)" style="background:var(--bg);border:1px solid var(--bor);color:var(--ac);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">📋 Copiar</button><button onclick="delUser(0)" style="background:transparent;border:1px solid var(--dan);color:var(--dan);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">✕</button></div></div><div class="hi"><span class="hn">👤 fazzini</span><span class="hp">fazzini</span><div style="display:flex;gap:6px;align-items:center;width:100%;margin-top:2px;"><span class="hd" style="flex:1;">Alta: 02/06/2026</span><button onclick="copyUserData(1)" style="background:var(--bg);border:1px solid var(--bor);color:var(--ac);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">📋 Copiar</button><button onclick="delUser(1)" style="background:transparent;border:1px solid var(--dan);color:var(--dan);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">✕</button></div></div></div>
     </div>
 
     <div style="max-width:360px;width:100%;margin-top:12px;display:flex;flex-direction:column;gap:8px;">
 
       <!-- DEPLOY AUTOMÁTICO -->
-      <button id="ghDeployBtn" class="btn bp blg bfull" onclick="deployToGitHub()" style="font-size:.92rem;background:linear-gradient(135deg,#238636,#2ea043);">
-        🚀 Publicar en Netlify (via GitHub)
-      </button>
+      <button id="ghDeployBtn" class="btn bp blg bfull" onclick="deployToGitHub()" style="font-size:.92rem;background:linear-gradient(135deg,#238636,#2ea043);" disabled="">⏳ Subiendo...</button>
       <p id="lastDeploy" style="font-size:.62rem;color:var(--mu);text-align:center;line-height:1.5;"></p>
 
       <!-- SEPARADOR -->
@@ -478,7 +468,7 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
   </nav>
 </div><!-- /app -->
 
-<div id="toast"><span id="toastT"></span></div>
+<div id="toast" class="g"><span id="toastT">✅ fazzini agregado — acordate de exportar el HTML maestro</span></div>
 
 <script>
 // ═══════════════════════════════════════
@@ -491,9 +481,7 @@ var _PK2 = [83,101,114,102,97,122,111,49,57,55,53]; // Serfazo1975
 // Formato: {n:"Nombre", p:[char codes], date:"dd/mm/yyyy"}
 // Esta lista es la fuente de verdad. Se actualiza al exportar el HTML maestro.
 // ═══════════════════════════════════════
-var _USERS = [
-  {n:"Electrogamez", p:[69,108,101,99,116,114,111,103,97,109,101,122], date:"01/06/2025"}
-];
+var _USERS = [{"n":"Electrogamez","p":[69,108,101,99,116,114,111,103,97,109,101,122],"date":"01/06/2025"},{"n":"fazzini","p":[102,97,122,122,105,110,105],"date":"02/06/2026"}];
 
 function _chk(v,a){
   if(!a||!a.length||v.length!==a.length)return false;
@@ -1271,5 +1259,6 @@ function iTab(t){
 var _tt;
 function toast(msg,t){var el=document.getElementById('toast');document.getElementById('toastT').textContent=msg;el.className='show '+(t||'g');clearTimeout(_tt);_tt=setTimeout(function(){el.classList.remove('show');},3000);}
 </script>
-</body>
-</html>
+
+
+<iframe frameborder="0" scrolling="no" style="background-color: transparent; border: 0px; display: none;"></iframe><div id="GOOGLE_INPUT_CHEXT_FLAG" input="" input_stat="{&quot;tlang&quot;:true,&quot;tsbc&quot;:true,&quot;pun&quot;:true,&quot;mk&quot;:true,&quot;ss&quot;:true}" style="display: none;"></div><veepn-lock-screen><style>@font-face{font-family:FigtreeVF;src:url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2 supports variations"),url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2-variations");font-weight:100 1000;font-display:swap}</style></veepn-lock-screen></body></html>
