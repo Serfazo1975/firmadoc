@@ -1,6 +1,4 @@
-<html lang="es"><head><style>body {transition: opacity ease-in 0.2s; } 
-body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
-</style>
+<html lang="es"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
@@ -247,7 +245,7 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
     <div class="card">
       <div class="ct">✍️ Dibujá tu firma</div>
       <div class="cw" id="cWrap">
-        <canvas id="sigCv" width="992" height="212" style="width: 794px; height: 170px;"></canvas>
+        <canvas id="sigCv" width="1830" height="212" style="width: 1464px; height: 170px;"></canvas>
         <div class="ch" id="cHint">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
           Dibujá tu firma con el dedo
@@ -410,12 +408,17 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
         <input type="text" class="ai" id="cPw" placeholder="Ej: Juan2025!" autocomplete="off" autocapitalize="off">
         <button class="btn bs bsm" onclick="genPw()">🎲 Auto</button>
       </div>
+      <label style="font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);display:block;margin-bottom:5px;margin-top:2px;">Tipo de acceso</label>
+      <select id="cRole" class="ai" style="margin-bottom:8px;cursor:pointer;">
+        <option value="pro">⭐ Pro — acceso completo sin límite</option>
+        <option value="trial">⚠️ Prueba — 5 usos gratuitos</option>
+      </select>
       <button class="btn bpu bfull blg" onclick="addUser()" style="margin-top:4px;">✅ Agregar usuario</button>
     </div>
 
     <div class="card" style="max-width:360px;width:100%;">
       <div class="ct">👥 Clientes activos <span id="userCountBadge" style="color:var(--ac);font-weight:700;margin-left:4px;">(2)</span></div>
-      <div id="userList"><div class="hi"><span class="hn">👤 Electrogamez</span><span class="hp">Electrogamez</span><div style="display:flex;gap:6px;align-items:center;width:100%;margin-top:2px;"><span class="hd" style="flex:1;">Alta: 01/06/2025</span><button onclick="copyUserData(0)" style="background:var(--bg);border:1px solid var(--bor);color:var(--ac);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">📋 Copiar</button><button onclick="delUser(0)" style="background:transparent;border:1px solid var(--dan);color:var(--dan);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">✕</button></div></div><div class="hi"><span class="hn">👤 fazzini</span><span class="hp">fazzini</span><div style="display:flex;gap:6px;align-items:center;width:100%;margin-top:2px;"><span class="hd" style="flex:1;">Alta: 02/06/2026</span><button onclick="copyUserData(1)" style="background:var(--bg);border:1px solid var(--bor);color:var(--ac);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">📋 Copiar</button><button onclick="delUser(1)" style="background:transparent;border:1px solid var(--dan);color:var(--dan);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">✕</button></div></div></div>
+      <div id="userList"><div class="hi"><span class="hn">👤 Electrogamez</span><span class="hp">Electrogamez</span><span style="font-size:.6rem;font-weight:700;color:#ffb347;">⚠️ Prueba</span><div style="display:flex;gap:6px;align-items:center;width:100%;margin-top:2px;"><span class="hd" style="flex:1;">Alta: 01/06/2025</span><button onclick="copyUserData(0)" style="background:var(--bg);border:1px solid var(--bor);color:var(--ac);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">📋 Copiar</button><button onclick="delUser(0)" style="background:transparent;border:1px solid var(--dan);color:var(--dan);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">✕</button></div></div><div class="hi"><span class="hn">👤 gallegos</span><span class="hp">gallegos</span><span style="font-size:.6rem;font-weight:700;color:#ffb347;">⚠️ Prueba</span><div style="display:flex;gap:6px;align-items:center;width:100%;margin-top:2px;"><span class="hd" style="flex:1;">Alta: 02/06/2026</span><button onclick="copyUserData(1)" style="background:var(--bg);border:1px solid var(--bor);color:var(--ac);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">📋 Copiar</button><button onclick="delUser(1)" style="background:transparent;border:1px solid var(--dan);color:var(--dan);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">✕</button></div></div></div>
     </div>
 
     <div style="max-width:360px;width:100%;margin-top:12px;display:flex;flex-direction:column;gap:8px;">
@@ -468,7 +471,7 @@ header h1{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3
   </nav>
 </div><!-- /app -->
 
-<div id="toast" class="g"><span id="toastT">✅ fazzini agregado — acordate de exportar el HTML maestro</span></div>
+<div id="toast" class="g"><span id="toastT">✅ gallegos agregado como prueba (5 usos)</span></div>
 
 <script>
 // ═══════════════════════════════════════
@@ -481,7 +484,7 @@ var _PK2 = [83,101,114,102,97,122,111,49,57,55,53]; // Serfazo1975
 // Formato: {n:"Nombre", p:[char codes], date:"dd/mm/yyyy"}
 // Esta lista es la fuente de verdad. Se actualiza al exportar el HTML maestro.
 // ═══════════════════════════════════════
-var _USERS = [{"n":"Electrogamez","p":[69,108,101,99,116,114,111,103,97,109,101,122],"date":"01/06/2025"},{"n":"fazzini","p":[102,97,122,122,105,110,105],"date":"02/06/2026"}];
+var _USERS = [{"n":"Electrogamez","p":[69,108,101,99,116,114,111,103,97,109,101,122],"date":"01/06/2025","role":"trial"},{"n":"gallegos","p":[103,97,108,108,101,103,111,115],"date":"02/06/2026","role":"trial"}];
 
 function _chk(v,a){
   if(!a||!a.length||v.length!==a.length)return false;
@@ -580,15 +583,14 @@ function doLogin(){
   var inp=document.getElementById('pwI'), err=document.getElementById('pwE');
   inp.classList.remove('err'); err.textContent='';
 
-  // 1 — Clave maestra (Sergio)
+  // 1 — Clave maestra (Admin completo)
   if(_chk(v,_PK2)){
-    _s(_KP,'1');
     _curUserKey='master';
-    _showApp(true);
+    _showApp('master');
     return;
   }
 
-  // 2 — Usuario de la lista embebida
+  // 2 — Usuario de la lista embebida (trial o pro)
   var user=_findUser(v);
   if(user){
     var ukey=user.n.replace(/\s+/g,'_').toLowerCase();
@@ -599,8 +601,9 @@ function doLogin(){
       return;
     }
     _regDevFor(ukey);
-    _showApp(false);
-    if(_gU()>=_TM) setTimeout(_showTrial,400);
+    var role=user.role||'pro'; // por defecto pro
+    _showApp(role);
+    if(role==='trial'&&_gU()>=_TM) setTimeout(_showTrial,400);
     return;
   }
 
@@ -615,27 +618,43 @@ function doLogin(){
   },2500);
 }
 
-function _showApp(isMaster){
-  // Ocultar login
+// role: 'master' | 'pro' | 'trial'
+function _showApp(role){
   document.getElementById('loginPage').classList.add('hide');
-  // Mostrar app
   document.getElementById('app').style.display='block';
-  // Alias en header
+
+  var adminBtn=document.getElementById('adminBtn');
+  var trialBadge=document.getElementById('trialBadge');
   var aliasEl=document.getElementById('aliasR');
-  if(aliasEl){
-    if(isMaster){aliasEl.textContent='Admin: Sergio';}
-    else{
-      var user=null;for(var i=0;i<_USERS.length;i++){if('fd_u_'+_USERS[i].n.replace(/\s+/g,'_').toLowerCase()===_kusos()||_USERS[i].n.replace(/\s+/g,'_').toLowerCase()===_curUserKey){user=_USERS[i];break;}}
-      aliasEl.textContent=user?'Usuario: '+user.n:'';
-    }
+
+  // Resetear todo primero
+  if(adminBtn)adminBtn.style.display='none';
+  if(trialBadge)trialBadge.style.display='none';
+
+  if(role==='master'){
+    if(adminBtn)adminBtn.style.display='flex';
+    if(aliasEl)aliasEl.textContent='Admin: Sergio';
+
+  } else if(role==='trial'){
+    if(trialBadge)trialBadge.style.display='flex';
+    var user=_getUserByKey(_curUserKey);
+    if(aliasEl)aliasEl.textContent=user?'Alias: '+user.n:'';
+    _updBadge();
+
+  } else {
+    // pro — sin badge, sin admin
+    var user=_getUserByKey(_curUserKey);
+    if(aliasEl)aliasEl.textContent=user?'Usuario: '+user.n:'';
   }
-  if(isMaster||_isPro()){
-    document.getElementById('trialBadge').style.display='none';
-    document.getElementById('adminBtn').style.display='flex';
-  }
-  _updBadge();
-  // Inicializar canvas DESPUÉS de que el app sea visible
+
   setTimeout(function(){ initCanvas(); renderSigGrid(); refreshMini(); },50);
+}
+
+function _getUserByKey(ukey){
+  for(var i=0;i<_USERS.length;i++){
+    if(_USERS[i].n.replace(/\s+/g,'_').toLowerCase()===ukey)return _USERS[i];
+  }
+  return null;
 }
 
 // ═══════════════════════════════════════
@@ -1107,21 +1126,23 @@ function genPw(){
 function addUser(){
   var name=document.getElementById('cName').value.trim();
   var pw=document.getElementById('cPw').value.trim();
+  var roleEl=document.getElementById('cRole');
+  var role=roleEl?roleEl.value:'pro';
   if(!name){toast('⚠️ Ingresá el nombre','r');return;}
   if(pw.length<4){toast('⚠️ Contraseña muy corta (mín. 4 car.)','r');return;}
-  // Verificar duplicado
   for(var i=0;i<_USERS.length;i++){
     if(_USERS[i].n.toLowerCase()===name.toLowerCase()){toast('⚠️ Ya existe ese cliente','r');return;}
   }
   var codes=pw.split('').map(function(c){return c.charCodeAt(0);});
   var today=new Date();
   var dateStr=(today.getDate()+'').padStart(2,'0')+'/'+(today.getMonth()+1+'').padStart(2,'0')+'/'+today.getFullYear();
-  _USERS.push({n:name,p:codes,date:dateStr});
+  _USERS.push({n:name,p:codes,date:dateStr,role:role});
   _syncUsersToLS();
   document.getElementById('cName').value='';
   document.getElementById('cPw').value='';
   renderUserList();
-  toast('✅ '+name+' agregado — acordate de exportar el HTML maestro','g');
+  var roleLabel=role==='trial'?'prueba (5 usos)':'pro (acceso completo)';
+  toast('✅ '+name+' agregado como '+roleLabel,'g');
 }
 
 // Eliminar usuario de _USERS
@@ -1143,9 +1164,13 @@ function renderUserList(){
   if(!_USERS.length){el.innerHTML='<div style="font-size:.7rem;color:var(--mu);text-align:center;padding:8px;">Ninguno aún.</div>';return;}
   el.innerHTML=_USERS.map(function(u,i){
     var pw=u.p.map(function(c){return String.fromCharCode(c);}).join('');
+    var role=u.role||'pro';
+    var roleLabel=role==='trial'?'⚠️ Prueba':'⭐ Pro';
+    var roleColor=role==='trial'?'#ffb347':'var(--ac)';
     return'<div class="hi">'
       +'<span class="hn">👤 '+_esc(u.n)+'</span>'
       +'<span class="hp">'+_esc(pw)+'</span>'
+      +'<span style="font-size:.6rem;font-weight:700;color:'+roleColor+';">'+roleLabel+'</span>'
       +'<div style="display:flex;gap:6px;align-items:center;width:100%;margin-top:2px;">'
       +'<span class="hd" style="flex:1;">Alta: '+u.date+'</span>'
       +'<button onclick="copyUserData('+i+')" style="background:var(--bg);border:1px solid var(--bor);color:var(--ac);border-radius:6px;padding:2px 7px;font-size:.6rem;cursor:pointer;">📋 Copiar</button>'
@@ -1260,5 +1285,4 @@ var _tt;
 function toast(msg,t){var el=document.getElementById('toast');document.getElementById('toastT').textContent=msg;el.className='show '+(t||'g');clearTimeout(_tt);_tt=setTimeout(function(){el.classList.remove('show');},3000);}
 </script>
 
-
-<iframe frameborder="0" scrolling="no" style="background-color: transparent; border: 0px; display: none;"></iframe><div id="GOOGLE_INPUT_CHEXT_FLAG" input="" input_stat="{&quot;tlang&quot;:true,&quot;tsbc&quot;:true,&quot;pun&quot;:true,&quot;mk&quot;:true,&quot;ss&quot;:true}" style="display: none;"></div><veepn-lock-screen><style>@font-face{font-family:FigtreeVF;src:url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2 supports variations"),url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2-variations");font-weight:100 1000;font-display:swap}</style></veepn-lock-screen></body></html>
+</body></html>
