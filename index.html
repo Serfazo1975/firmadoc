@@ -1345,10 +1345,16 @@ var _GH = {
   user: 'Serfazo1975',
   repo: 'firmadoc',
   file: 'index.html',
-  // Token ofuscado en chunks para dificultar scraping básico
-  _t: ['ghp_m0Oq2TzPH7h','UwWpQhP1mFDM','b56bFFk3wd7XQ']
+  _t: ['ghp_m0Oq2TzPH7h','UwWpQhP1mFDM','b56bFFk3wd7XQ'] // GitHub token (respaldo)
 };
 function _ghToken(){return _GH._t.join('');}
+
+// ── NETLIFY CONFIG ──
+var _NL = {
+  siteId: 'firmepdf.netlify.app',
+  _t: ['nfp_CcY5iWH3bex','AepAyFQ7iCFK','5CT7FXyrs0899']
+};
+function _nlToken(){return _NL._t.join('');}
 
 // ── GENERAR HTML MAESTRO (texto listo para subir) ──
 function _buildMasterHtml(){
@@ -1382,39 +1388,66 @@ function exportMaster(){
 // ── DEPLOY A GITHUB → NETLIFY REPUBLICA AUTOMÁTICO ──
 async function deployToGitHub(){
   var btn=document.getElementById('ghDeployBtn');
-  if(btn){btn.disabled=true;btn.textContent='⏳ Subiendo...';}
+  if(btn){btn.disabled=true;btn.textContent='⏳ Publicando...';}
   try{
-    var html=_buildMasterHtml();
-    var b64=btoa(unescape(encodeURIComponent(html)));
-
-    var apiBase='https://api.github.com/repos/'+_GH.user+'/'+_GH.repo+'/contents/'+_GH.file;
-    var headers={'Authorization':'token '+_ghToken(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};
-
-    // 1 — Obtener SHA del archivo actual (necesario para actualizarlo)
-    var sha='';
-    try{
-      var getRes=await fetch(apiBase,{headers:headers});
-      if(getRes.ok){var getData=await getRes.json();sha=getData.sha||'';}
-    }catch(e){}
-
-    // 2 — Subir archivo (create o update según si hay SHA)
+    var htmlContent=_buildMasterHtml();
+    var b64=btoa(unescape(encodeURIComponent(htmlContent)));
     var now=new Date();
     var fechaStr=now.toLocaleDateString('es-AR')+' '+now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
-    var body={message:'FirmaDoc deploy '+fechaStr+' — '+_USERS.length+' usuario(s)',content:b64};
-    if(sha)body.sha=sha;
 
-    var putRes=await fetch(apiBase,{method:'PUT',headers:headers,body:JSON.stringify(body)});
+    var ok=false;
 
-    if(putRes.ok){
-      toast('🚀 ¡Publicado! Netlify se actualiza en ~30seg','g');
-      // Actualizar fecha del último deploy en el panel
+    // ── Intento 1: Netlify API (deploy directo) ──
+    try{
+      if(btn)btn.textContent='⏳ Subiendo a Netlify...';
+      // Crear un zip mínimo con el index.html para Netlify deploy API
+      // Netlify acepta multipart/form-data con el archivo directo
+      var blob=new Blob([htmlContent],{type:'text/html;charset=utf-8'});
+      var formData=new FormData();
+      formData.append('file',blob,'index.html');
+
+      // Netlify Files API — sube un zip con el sitio
+      // Usamos la API de deploys con digest
+      var digestRes=await fetch('https://api.netlify.com/api/v1/sites/'+_NL.siteId+'/deploys',{
+        method:'POST',
+        headers:{
+          'Authorization':'Bearer '+_nlToken(),
+          'Content-Type':'application/zip'
+        },
+        body:await _buildZip(htmlContent)
+      });
+      if(digestRes.ok){
+        ok=true;
+        toast('🚀 ¡Publicado en Netlify!','g');
+      }
+    }catch(e){console.warn('Netlify direct failed:',e);}
+
+    // ── Intento 2: GitHub API (Netlify detecta el commit) ──
+    if(!ok){
+      if(btn)btn.textContent='⏳ Subiendo a GitHub...';
+      var apiBase='https://api.github.com/repos/'+_GH.user+'/'+_GH.repo+'/contents/'+_GH.file;
+      var headers={'Authorization':'token '+_ghToken(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};
+      var sha='';
+      try{
+        var getRes=await fetch(apiBase,{headers:headers});
+        if(getRes.ok){var getData=await getRes.json();sha=getData.sha||'';}
+      }catch(e){}
+      var body={message:'FirmaDoc deploy '+fechaStr+' — '+_USERS.length+' usuario(s)',content:b64};
+      if(sha)body.sha=sha;
+      var putRes=await fetch(apiBase,{method:'PUT',headers:headers,body:JSON.stringify(body)});
+      if(putRes.ok){
+        ok=true;
+        toast('🚀 ¡Subido a GitHub! Netlify republica en ~30seg','g');
+      } else {
+        var errData=await putRes.json();
+        toast('❌ Error: '+(errData.message||putRes.status),'r');
+      }
+    }
+
+    if(ok){
       var lastEl=document.getElementById('lastDeploy');
       if(lastEl)lastEl.textContent='Último deploy: '+fechaStr;
       _s('fd_lastdeploy',fechaStr);
-    } else {
-      var err=await putRes.json();
-      toast('❌ Error GitHub: '+(err.message||putRes.status),'r');
-      console.error('GitHub API error:',err);
     }
   }catch(e){
     toast('❌ Error de conexión: '+e.message,'r');
@@ -1422,6 +1455,76 @@ async function deployToGitHub(){
   }finally{
     if(btn){btn.disabled=false;btn.textContent='🚀 Publicar en Netlify (via GitHub)';}
   }
+}
+
+// Genera un ZIP mínimo con index.html para Netlify deploy API
+async function _buildZip(htmlContent){
+  // Usar la librería JSZip si está disponible, sino enviar como octet-stream
+  try{
+    // Construir ZIP manualmente (formato mínimo)
+    var enc=new TextEncoder();
+    var data=enc.encode(htmlContent);
+    var fname=enc.encode('index.html');
+    // Local file header
+    var lh=new Uint8Array(30+fname.length);
+    var dv=new DataView(lh.buffer);
+    dv.setUint32(0,0x504b0304,true); // signature
+    dv.setUint16(4,20,true);  // version
+    dv.setUint16(6,0,true);   // flags
+    dv.setUint16(8,0,true);   // compression (store)
+    dv.setUint16(10,0,true);  // mod time
+    dv.setUint16(12,0,true);  // mod date
+    // CRC32
+    var crc=_crc32(data);
+    dv.setUint32(14,crc,true);
+    dv.setUint32(18,data.length,true); // compressed size
+    dv.setUint32(22,data.length,true); // uncompressed size
+    dv.setUint16(26,fname.length,true); // filename length
+    dv.setUint16(28,0,true);  // extra field length
+    lh.set(fname,30);
+    // Central directory
+    var cd=new Uint8Array(46+fname.length);
+    var cdv=new DataView(cd.buffer);
+    cdv.setUint32(0,0x504b0102,true);
+    cdv.setUint16(4,20,true);cdv.setUint16(6,20,true);
+    cdv.setUint16(8,0,true);cdv.setUint16(10,0,true);
+    cdv.setUint16(12,0,true);cdv.setUint16(14,0,true);
+    cdv.setUint32(16,crc,true);
+    cdv.setUint32(20,data.length,true);cdv.setUint32(24,data.length,true);
+    cdv.setUint16(28,fname.length,true);
+    cdv.setUint16(30,0,true);cdv.setUint16(32,0,true);cdv.setUint16(34,0,true);
+    cdv.setUint16(36,0,true);cdv.setUint32(38,0,true);cdv.setUint32(42,0,true);
+    cd.set(fname,46);
+    // End of central directory
+    var eocd=new Uint8Array(22);
+    var eodv=new DataView(eocd.buffer);
+    eodv.setUint32(0,0x504b0506,true);
+    eodv.setUint16(4,0,true);eodv.setUint16(6,0,true);
+    eodv.setUint16(8,1,true);eodv.setUint16(10,1,true);
+    eodv.setUint32(12,cd.length,true);
+    eodv.setUint32(16,lh.length+data.length,true);
+    eodv.setUint16(20,0,true);
+    var zip=new Uint8Array(lh.length+data.length+cd.length+eocd.length);
+    zip.set(lh,0);zip.set(data,lh.length);
+    zip.set(cd,lh.length+data.length);
+    zip.set(eocd,lh.length+data.length+cd.length);
+    return zip.buffer;
+  }catch(e){
+    // Fallback: retornar HTML como octet-stream
+    return new TextEncoder().encode(htmlContent).buffer;
+  }
+}
+
+function _crc32(data){
+  var table=[];
+  for(var i=0;i<256;i++){
+    var c=i;
+    for(var j=0;j<8;j++)c=c&1?(0xEDB88320^(c>>>1)):(c>>>1);
+    table[i]=c;
+  }
+  var crc=0xFFFFFFFF;
+  for(var k=0;k<data.length;k++)crc=(crc>>>8)^table[(crc^data[k])&0xFF];
+  return (crc^0xFFFFFFFF)>>>0;
 }
 
 // INSTALL / TOAST
